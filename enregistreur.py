@@ -42,16 +42,15 @@ class AudioRecorder:
 
 def transcribe_audio(audio_file="enregistrement.wav"):
     recognizer = sr.Recognizer()
-
     with sr.AudioFile(audio_file) as source:
         audio_data = recognizer.record(source)
-
     try:
-        return recognizer.recognize_whisper(audio_data)
+        # Utilisation de l'API Google avec la langue française (fr-FR)
+        return recognizer.recognize_google(audio_data, language="fr-FR")
     except sr.UnknownValueError:
         return None
     except sr.RequestError as e:
-        return f"Erreur Whisper : {e}"
+        return f"Erreur de reconnaissance vocale : {e}"
 
 def save_to_file(text, folder="transcriptions"):
     os.makedirs(folder, exist_ok=True)
